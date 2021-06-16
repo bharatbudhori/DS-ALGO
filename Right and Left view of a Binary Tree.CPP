@@ -285,6 +285,33 @@ void rightView(Node* root){
         }
     }
 }
+void leftView(Node* root){
+    if(root == NULL){
+        return;
+    }
+    
+    queue<Node*> q;
+    q.push(root);
+    
+    while(! q.empty()){
+        int n=q.size();
+        
+        for(int i=0;i<n;i++){
+            Node* curr=q.front();
+            q.pop();
+            
+            if(i==0){
+                cout<<curr->data<<" ";
+            }
+            if(curr->left != NULL){
+                q.push(curr->left);
+            }
+            if(curr->right != NULL){
+                q.push(curr->right);
+            }
+        }
+    }
+}
 
 
 int main()
@@ -299,6 +326,8 @@ int main()
     
     int height=0;
     rightView(root);
+    cout<<endl;
+    leftView(root);
     
     
     //cout<<isBalancedOp(root,&height);
