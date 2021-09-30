@@ -1,0 +1,21 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int magicNumber(int n){
+    int base=5,ans=0;
+    while(n>0){
+        int last=n&1;
+        n=n>>1;
+        ans+=(base*last);
+        base*=5;
+    }
+    return ans;
+}
+
+int main()
+{
+    cout<<magicNumber(5);
+    return 0;
+}
+
