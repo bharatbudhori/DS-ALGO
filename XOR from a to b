@@ -1,0 +1,31 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int xorTilla(int a){
+    if(a%4==0){
+        return a;
+    }
+    else if(a%4==1){
+        return 1;
+    }
+    else if(a%4==2){
+        return a+1;
+    }
+    else{
+        return 0;
+    }
+}
+
+int xorTillaTob(int a, int b){
+    return xorTilla(b)^xorTilla(a-1);
+}
+
+int main()
+{
+     
+    cout<<xorTillaTob(3, 9);
+    return 0;
+}
+
+
