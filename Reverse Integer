@@ -1,0 +1,45 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int sum=0;
+
+int reverseNum1(int n){
+    if(n/10==n){
+        return sum*10 + n;
+    }
+    
+    int rem=n%10;
+    sum=sum*10+rem;
+    reverseNum1(n/10);
+    
+    return sum;
+}
+int helper(int n ,int digits){
+    if(n/10==n){
+        return n;
+    }
+    int rem=n%10;
+    return rem*pow(10,digits-1) + helper(n/10, digits-1);
+}
+
+int reverseNum2(int n){
+    int digits = (log(n)/log(10))+1;
+    return helper(n, digits);
+}
+
+
+
+int main()
+{
+   //cout<<reverseNum1(-1224);
+   cout<<reverseNum2(1224);
+    return 0;
+}
+
+
+
+
+
+
+
