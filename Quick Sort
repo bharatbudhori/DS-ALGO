@@ -1,0 +1,63 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+void quickSort(vector<int> &arr, int low, int hi){
+    if(low>=hi){
+        return;
+    }
+    
+    int s=low;
+    int e=hi;
+    
+    int mid=s+(e-s)/2;
+    int pivot=arr[mid];
+    
+    while(s<=e){
+        while(arr[s]<pivot){
+            s++;
+        }
+        while(arr[e]>pivot){
+            e--;
+        }
+        
+        if(s<=e){
+            int temp=arr[s];
+            arr[s]=arr[e];
+            arr[e]=temp;
+            s++;
+            e--;
+        }
+    }
+    
+    //now pivot is ar correct index, please sort other halfes of array
+    
+    quickSort(arr,low,e);
+    quickSort(arr,s,hi);
+}
+
+int main()
+{   
+    vector<int> arr{5,6,9,3,1,5,3,4,23,12,56};
+    
+    quickSort(arr,0,arr.size()-1);
+    
+    for(int i=0; i<arr.size();i++){
+        cout<<arr[i]<<" ";
+    }
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
