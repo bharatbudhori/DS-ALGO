@@ -1,0 +1,57 @@
+#include<iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void removeA(string str, string ans){
+    if(str.length()==0){
+        cout<<ans;
+        return;
+    }
+    
+    char ch=str[0];
+    
+    if(ch=='a'){
+        removeA(str.substr(1), ans);
+    }
+    else{
+        removeA(str.substr(1), ans+ch);
+    }
+    
+}
+
+string skipA(string str){
+    
+    
+    if(str.length()==0){
+        return "";
+    }
+    char ch=str[0];
+    
+    if(ch != 'a'){
+        return ch+skipA(str.substr(1));
+    }
+    else{
+        return skipA(str.substr(1));
+    }
+    //return ans;
+    
+}
+
+int main()
+{
+    string str="baccabcca";
+    
+    //cout<<str.length()<<endl;
+    //str=str.substr(9);
+    //cout<<str<<endl;
+    //cout<<str.length();
+    //removeA(str, "");
+    
+    string a=skipA(str);
+    cout<<a;
+    //cout<<str[0];
+
+    return 0;
+}
+
