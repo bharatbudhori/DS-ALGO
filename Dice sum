@@ -1,0 +1,68 @@
+#include<iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void diceRoll(int target, string ans){
+    if(target==0){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    //int digit = str[0] - '0';
+    
+    for(int i= 1; i<=6 && i<=target ;i++){
+        
+        char ch='0' + i;
+        
+        diceRoll(target-i, ans + ch);
+        
+    }
+}
+
+vector<string> dice(int target, string ans){
+    if(target==0){
+        vector<string> arr1;
+        arr1.push_back(ans);
+        return arr1;
+    }
+    
+    
+    vector<string> arr;
+    
+    for(int i= 1; i<=6 && i<=target ;i++){
+        
+        char ch='0' + i;
+        
+        vector<string> vect = dice(target-i, ans + ch);
+        arr.insert(arr.end(), vect.begin(), vect.end());
+        
+    }
+    
+    return arr;
+}
+
+
+int main()
+{
+    string str="12";
+    
+    //cout<<str.length()<<endl;
+    //str=str.substr(0,2)+'X'+str.substr(2,2);
+    //cout<<str<<endl;
+    //cout<<str.length();
+    //removeA(str, "");
+    //diceRoll(4,"");
+    vector<string> arr; 
+    arr=dice(4,"");
+    //phonepad("123", "");
+    for(int i=0;i<arr.size();i++){
+        cout<<arr[i]<<" ";
+    }
+    //cout<<str[0];
+
+    return 0;
+}
+
+
+
