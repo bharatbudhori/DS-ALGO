@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void subsequence(string str, string ans){
+    if(str.length()==0){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    char ch=str[0];
+    
+    if(ch >= 48 && ch<=57){
+        subsequence(str.substr(1), ans+ch);
+    }
+    else{
+        char c;
+        if(islower(ch)){
+            c = toupper(ch);
+        }
+        else{
+            c = tolower(ch);
+        }
+    //subsequence(str.substr(1), ans+ch);
+        subsequence(str.substr(1), ans + ch);
+        subsequence(str.substr(1), ans + c);
+    }
+}
+
+vector<string> subsequence1(string str, string ans){
+    if(str.length()==0){
+        vector<string> arr;
+        arr.push_back(ans);
+        return arr;
+    }
+    
+    char ch=str[0];
+    
+    if(ch >= 48 && ch<=57){
+        vector<string> left = subsequence1(str.substr(1), ans+ch);
+        return left;
+    }
+    else{
+        char c;
+        if(islower(ch)){
+            c = toupper(ch);
+        }
+        else{
+            c = tolower(ch);
+        }
+        
+        vector<string> left = subsequence1(str.substr(1), ans+ch);
+        vector<string> right = subsequence1(str.substr(1), ans+c);
+    
+        left.insert(left.end(), right.begin(), right.end());
+        
+        return left;
+    }
+    
+    
+    //return left;
+}
+
+int main()
+{
+    string str="C1b4a";
+    //subsequence(str, "");
+    vector<string> ans=subsequence1(str, "");
+    
+    for(int i=0; i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
+
+    return 0;
+}
+
+
+
