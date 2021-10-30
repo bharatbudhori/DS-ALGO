@@ -1,0 +1,121 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void mazeWithRestrictions(string ans, vector<vector<bool>> maze, int r, int c){
+    if(r == maze.size()-1 && c == maze[0].size()-1){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    if(maze[r][c] == false){
+        return;
+    }
+    
+    if(c < maze[0].size()-1){
+         mazeWithRestrictions(ans+'R',maze, r, c+1);
+    }
+    
+    if(r < maze.size()-1){
+        mazeWithRestrictions(ans+'D',maze, r+1, c);
+    }
+}
+
+void allPaths(string ans, vector<vector<bool>> maze, int r, int c){
+    if(r == maze.size()-1 && c == maze[0].size()-1){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    if(maze[r][c] == false){
+        return;
+    }
+    
+    //i am considering this block in my path
+    maze[r][c]=false;
+        
+    if(r < maze.size()-1){
+       allPaths(ans+'D', maze, r+1, c); 
+    }
+    if(c < maze[0].size()-1){
+        allPaths(ans+'R', maze, r, c+1);
+    }
+    if(r>0){
+        allPaths(ans+'U', maze, r-1, c);
+    }
+    if(c > 0){
+        allPaths(ans+'L', maze, r, c-1);
+    }
+    
+    //this line is where the function is over
+    //before the function gets removed, also remove the changes made by this function
+    maze[r][c]=true;
+    
+}
+
+void allPathsPrint(string ans, vector<vector<bool>> maze, int r, int c, vector<vector<int>> path, int steps){
+    
+    if(r == maze.size()-1 && c == maze[0].size()-1){
+        path[r][c]=steps;
+        for(int i=0; i<path.size(); i++){
+            for(int j=0; j<path[0].size(); j++){
+                cout<<path[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+        cout<<ans;
+        cout<<endl;
+        cout<<endl;
+        return;
+    }
+    
+    if(maze[r][c] == false){
+        return;
+    }
+    
+    //i am considering this block in my path
+    maze[r][c]=false;
+    path[r][c]=steps;
+        
+    if(r < maze.size()-1){
+       allPathsPrint(ans+'D', maze, r+1, c, path,steps+1); 
+    }
+    if(c < maze[0].size()-1){
+        allPathsPrint(ans+'R', maze, r, c+1, path,steps+1);
+    }
+    if(r>0){
+        allPathsPrint(ans+'U', maze, r-1, c, path,steps+1);
+    }
+    if(c > 0){
+        allPathsPrint(ans+'L', maze, r, c-1, path,steps+1);
+    }
+    
+    //this line is where the function is over
+    //before the function gets removed, also remove the changes made by this function
+    maze[r][c]=true;
+    path[r][c]=0;
+    
+}
+
+
+int main()
+{
+    vector<vector<bool>> maze = {
+                                    {1,1,1},
+                                    {1,0,1},   //0 means obstacle
+                                    {1,0,1}
+                                };
+    
+    vector<vector<int>> path = {
+                                    {0,0,0},
+                                    {0,0,0},
+                                    {0,0,0}
+                                };
+                                
+    allPathsPrint("", maze, 0,0, path, 1);
+    
+   
+
+    return 0;
+}
+
+
