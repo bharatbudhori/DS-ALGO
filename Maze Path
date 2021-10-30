@@ -1,0 +1,130 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int countWays(int r, int c){
+    if(r==1 || c==1){
+        return 1;
+    }
+    //if(r==2 && c==2){
+    //    return 0;
+    //}
+    
+    int left = countWays(r-1, c);
+    int right = countWays(r,c-1);
+    
+    return left+right;
+}
+
+void printWays1(string ans, int r, int c){
+    if(r==1 && c==1){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    //if(r==2 && c==2){
+    //    return ;
+    //}
+    
+    if(r==1){
+        printWays1(ans+'R', r, c-1);
+    }
+    else if(c==1){
+         printWays1(ans+'D', r-1, c);
+    }
+    else{
+        printWays1(ans+'D', r-1, c);
+        printWays1(ans+'R', r, c-1);
+    }
+}
+
+
+//infinite recursion
+void allPaths(string ans, int r, int c){
+    if(r==1 && c==1){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    if(r>1){
+       allPaths(ans+'D', r-1, c); 
+    }
+    if(c>1){
+        allPaths(ans+'R', r, c-1);
+    }
+    if(c<3){
+        allPaths(ans+'L', r, c+1);
+    }
+    if(r<3){
+        allPaths(ans+'U', r+1, c);
+    }
+}
+
+vector<string> printWays(string ans, int r, int c){
+    if(r==1 && c==1){
+        vector<string> answer;
+        answer.push_back(ans);
+        return answer;
+    }
+    
+    //if(r==2 && c==2){
+    //    vector<string> answer;
+    //    return answer;
+    //}
+    
+    if(r==1){
+        vector<string> left = printWays(ans+'R', r, c-1);
+        return left;
+    }
+    else if(c==1){
+        vector<string> left =  printWays(ans+'D', r-1, c);
+        return left;
+    }
+    else{
+        vector<string> left =  printWays(ans+'D', r-1, c);
+        vector<string> right =  printWays(ans+'R', r, c-1);
+        
+        left.insert(left.end(), right.begin(), right.end());
+        return left;
+    }
+}
+
+void printWaysdiagonal(string ans, int r, int c){
+    if(r==1 && c==1){
+        cout<<ans<<" ";
+        return;
+    }
+    
+    if(r==1){
+        printWaysdiagonal(ans+'H', r, c-1);
+    }
+    else if(c==1){
+         printWaysdiagonal(ans+'V', r-1, c);
+    }
+    else{
+        printWaysdiagonal(ans+'V', r-1, c);
+        printWaysdiagonal(ans+'H', r, c-1);
+        printWaysdiagonal(ans+'D', r-1, c-1);
+    }
+}
+
+int main()
+{
+    cout<<countWays(3,3)<<endl;
+    printWays1("", 3,3);
+    cout<<endl;
+    
+    vector<string> arr;
+    
+    arr=printWays("", 3, 3);
+    
+    for(int i=0; i<arr.size(); i++){
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    printWaysdiagonal("",3,3);
+
+    return 0;
+}
+
+
+
