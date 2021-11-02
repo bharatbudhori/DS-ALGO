@@ -3,39 +3,46 @@
 
 using namespace std;
 
-string kthGrammar(string ans, int n, int x){
+string kthGrammarHelper(string ans, int n, int x){
     if(x==n){
         return ans;
     }
     if(ans.length() == 0){
-        return kthGrammar("0", n+1, x);
+        ans+='0';
+        //cout<<ans<<" "<<n<<endl;
+        return kthGrammarHelper(ans, n+1, x);
     }
     else{
         string str = "";
         for(int i=0; i<ans.size(); i++){
-            if(ans[i]==0){
+            if(ans[i]=='0'){
                 str.append("01");
             }
             else{
                 str.append("10");
             }
         }
-        return kthGrammar(str, n+1, x);
+        //cout<<str<<" "<<n<<endl;
+        
+        return kthGrammarHelper(str, n+1, x);
     }
     
+}
+
+int kthGrammar(int n, int k) {
+        string str = kthGrammarHelper("", 0, n);
+        
+        //char ch = str[k];
+        return str[k-1]-'0';
 }
 
 
 
 int main()
 {
-    string str=kthGrammar("", 1, 4);
-    cout<<str;
-    
-    
-    
-
+    cout<<kthGrammar(30,434991989);
     return 0;
 }
+
 
 
