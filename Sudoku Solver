@@ -1,0 +1,122 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isSafe(vector<vector<int>> board, int row, int col, int num){
+    //check the row
+    for(int i=0; i<board.size(); i++){
+        //check if the number is in the row or not
+        if(board[row][col] == num){
+            return false;
+        }
+    }
+    
+    //check the col
+    for(vector<int> nums : board){
+        //check if the number is in the col or not
+        if(nums[col] == num){
+            return false;
+        }
+    }
+    
+    int sqroot = sqrt(board.size());
+    
+    int rStart = row - row%sqroot;
+    int cStart = col - col%sqroot;
+    
+    for(int r=rStart; r< rStart+sqroot; r++){
+        for(int c=cStart; c<cStart+sqroot; c++){
+            if(board[r][c] == num){
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+void display(vector<vector<int>> board){
+    
+    for(vector<int> row : board){
+        for(int num : row){
+            cout<<num<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+
+bool solve(vector<vector<int>> &board){
+    int n=board.size();
+    int row = -1;
+    int col = -1;
+    
+    bool enptyLeft = true;
+    
+    //this is how we replace r,c from arguments 
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            if(board[i][j] == 0){
+                row=i;
+                col=j;
+                enptyLeft = false;
+                break;
+            }
+        }
+        
+        //if you found some empty element in row, then break
+        if(enptyLeft == false){
+            break;
+        }
+    }
+    if(enptyLeft == true){
+        return true;
+        //sudoku is solved
+    }
+    
+    //backtrack
+    for(int num=1; num<=n; num++){
+        if(isSafe(board, row, col, num)){
+            board[row][col] = num;
+            
+            if(solve(board)){
+                //display(board);
+                return true;
+            }
+            else{
+                //backtrack
+                board[row][col]=0;
+            }
+        }
+    }
+    
+    return false;
+    
+    
+}
+
+
+int main()
+{
+    vector<vector<int>> board { {3, 0, 6, 5, 0, 8, 4, 0, 0}, 
+                                {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
+                                {0, 8, 7, 0, 0, 0, 0, 3, 1}, 
+                                {0, 0, 3, 0, 1, 0, 0, 8, 0}, 
+                                {9, 0, 0, 8, 6, 3, 0, 0, 5}, 
+                                {0, 5, 0, 0, 9, 0, 6, 0, 0}, 
+                                {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
+                                {0, 0, 0, 0, 0, 0, 0, 7, 4}, 
+                                {0, 0, 5, 2, 0, 6, 3, 0, 0} 
+        
+                            };
+                            
+    if(solve(board)){
+        display(board);
+    }
+    else{
+        cout<<"Cannot solve sudoku";
+    }
+
+    return 0;
+}
+
