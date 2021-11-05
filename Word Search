@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool found = false;
+
+void allPaths(vector<vector<char>> &maze, int r, int c, string ans, string word){
+    
+    
+    if(found == true){
+        return;
+    }
+    //cout<<ans<<" ";
+    if(ans == word){
+        cout << true <<" "<<ans;
+        found=true;
+        return;
+    }
+    
+    if(maze[r][c] == '@'){
+        return;
+    }
+    
+
+   
+    
+    char ch = maze[r][c];
+    
+    maze[r][c]='@';
+   
+    
+    //i am considering this block in my path
+    
+        
+    if(r < maze.size()-1){
+       allPaths(maze, r+1, c, ans+ch, word); 
+    }
+    if(c < maze[0].size()-1){
+        allPaths(maze, r, c+1, ans+ch, word);
+    }
+    if(r>0){
+        allPaths(maze, r-1, c, ans+ch, word);
+    }
+    if(c > 0){
+        allPaths(maze, r, c-1, ans+ch, word);
+    }
+    
+    
+    maze[r][c]=ch;
+    //this line is where the function is over
+    //before the function gets removed, also remove the changes made by this function
+    
+    
+}
+
+
+int main()
+{
+    vector<vector<char>> maze = {
+                                    {'A','B','C','E'},
+                                    {'S','F','C','S'},   
+                                    {'A','D','E','E'}
+                                };
+    string word = "FDEE";
+    
+    if(maze.size()==1 && maze[0].size()==1 && word.length()==1){
+        if(maze[0][0]==word[0]){
+            cout<< true<<" "<<word[0];
+        }
+    }
+       else{ 
+       
+    for(int i=0; i<maze.size(); i++){
+        for(int j=0; j<maze[0].size(); j++){
+            if(maze[i][j] == word[0]){
+                allPaths(maze, i, j, "", word);
+            }
+        }
+    }
+}
+                                
+    //allPaths(maze, 0, 0, "", word);
+    
+   
+
+    return 0;
+}
+
+
+
+
