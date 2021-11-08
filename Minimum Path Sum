@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int minSum=INT_MAX;
+int sum=0;
+
+void mazeWithRestrictions( vector<vector<int>> maze,  int r, int c){
+    if(r == maze.size()-1 && c == maze[0].size()-1){
+        sum+=maze[r][c];
+        cout<<sum<<endl;
+        if(sum < minSum){
+            minSum = sum;
+        }
+        
+        sum = sum-maze[r][c];
+        return;
+    }
+    
+    
+    sum+=maze[r][c];
+    //cout<<sum<<endl;
+    
+    if(c < maze[0].size()-1){
+        
+        mazeWithRestrictions( maze, r, c+1 );
+    }
+    
+    if(r < maze.size()-1){
+        mazeWithRestrictions( maze, r+1, c);
+    }
+    
+    sum = sum-maze[r][c];
+}
+
+
+
+
+int main()
+{
+    vector<vector<int>> maze = {
+                                   {7,1,3},
+                                   {9,5,9},
+                                   {8,2,9}
+                                   
+                                };
+    
+    
+                                
+    mazeWithRestrictions( maze, 0, 0);
+    cout<<minSum;
+   
+
+    return 0;
+}
+
+
+
+
