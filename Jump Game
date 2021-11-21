@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void jumpGame(vector<int> &arr, int i){
+    if(i==arr.size()-1){
+        cout<<true<<" ";
+        
+        return;
+    }
+    if(i>arr.size()-1){
+        return;
+    }
+    
+    for(int j=1; j<=arr[i]; j++){
+        i=i+j;
+        jumpGame(arr,i);
+        i=i-j;
+    }
+}
+
+
+
+
+int main()
+{
+    
+    vector<int> arr{2,3,1,1,4};
+    vector<int> a;
+    
+    
+    jumpGame(arr,0);
+    
+
+    return 0;
+}
