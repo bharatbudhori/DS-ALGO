@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n=234;
+    //cout<<n/26;
+    
+    string str;
+    
+    while(n>0){
+        if(n<=26){
+            str=char('@'+n)+str;
+            break;
+        }
+        
+        int idx=n%26;
+        if(idx==0){
+            str='Z'+str;
+            n=n/26 - 1;
+        }
+        else{
+            str=char('@'+idx)+str;
+            n=n/26;
+        }
+        
+        
+        //str=ch+str;
+        //n=n/26;
+    }
+    
+    cout<<str;
+
+    return 0;
+}
+
