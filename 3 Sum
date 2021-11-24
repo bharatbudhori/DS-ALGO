@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+vector<vector<int>> threeSum(vector<int>& nums, int target) {
+    
+    int n = nums.size();
+    int i, j, k;
+    vector<vector<int>> ans;
+    if(n < 3)
+        return ans;
+        
+    sort(nums.begin(), nums.end());
+        
+    for (i = 0 ; i < n ; i++) {
+        if(i > 0 && nums[i] == nums[i-1]) 
+            continue;
+            
+        j = i+1;
+        k = n-1;
+            
+        while(j < k) {
+            if(nums[i] + nums[j] + nums[k] == target) {
+                ans.push_back({nums[i], nums[j], nums[k]});
+                while(j<k && nums[j]==nums[++j]);
+                while(j<k && nums[k]==nums[--k]);
+            }
+            else if(nums[i] + nums[j] + nums[k] > 0)
+                k--;
+            else
+                j++;     
+        }
+    }
+        return ans;
+}
+
+int main()
+{
+    vector<int> arr{4,5,3,1,2,6,7,2,3};
+    
+    vector<vector<int>> ans = threeSum(arr,10);
+    
+    for(int i=0; i<ans.size(); i++){
+        for(int j=0; j<ans[0].size(); j++){
+            cout<<ans[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
+
