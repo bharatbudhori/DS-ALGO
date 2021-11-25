@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int maxArea(vector<int>& arr) {
+    int ans = INT_MIN;
+    int l=0, r=arr.size()-1;
+        
+    while(l<r){
+        int area = (r-l)*min(arr[l], arr[r]);
+        if(area > ans)
+            ans=area;
+            
+        if(arr[l]<arr[r])
+            l++;
+        else
+            r--;
+    }
+    return ans;
+}
+
+int main()
+{
+    vector<int> arr{2,3,4,5,18,17,6};
+    
+    cout<<maxArea(arr);
+
+    return 0;
+}
