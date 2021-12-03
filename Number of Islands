@@ -1,0 +1,40 @@
+class Solution {
+public:
+    
+    void sinkIsland(vector<vector<char>>& a,int i,int j)
+    {
+        if(i<0||i>a.size()-1||j<0||j>a[0].size()-1)
+            return;
+        
+        if(a[i][j]=='1')
+        {
+            a[i][j]='0';
+            sinkIsland(a,i+1,j);
+            sinkIsland(a,i,j+1);
+            sinkIsland(a,i-1,j);
+            sinkIsland(a,i,j-1);
+            
+        }
+        else return;
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.size()==0){
+            return 0;
+        }
+        
+        int count=0;
+        
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[i].size(); j++){
+                
+                if(grid[i][j]=='1'){
+                    count++;
+                    sinkIsland(grid,i,j);
+                }
+            }
+        }
+        
+        return count;
+    }
+};
