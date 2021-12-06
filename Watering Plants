@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int wateringPlants(vector<int>& arr, int capacity) {
+        int cap = capacity;
+        int n=arr.size();
+        int r=-1;
+        int count=0;
+        for(int i=0; i<n; i++){
+            
+            
+            count+=i-r;
+            int c=cap;
+            c-=arr[i];
+            
+            
+            
+            while(i!=n-1 && c>=arr[i+1]){
+                count++;
+                c-=arr[i+1];
+                i=i+1;
+            }
+            
+            if(i>=n-1){
+                break;
+            }
+            
+            count+=(i-r);
+            //count+=count;
+        }
+        return count;
+    }
+};
