@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& arr, int k) {
+        vector<pair<long, vector<int>>> a;
+        vector<vector<int>> ans;
+        long x;
+        int n=arr.size();
+        for(int i=0; i<n; i++){
+            x= pow(arr[i][0], 2) + pow(arr[i][1], 2);
+            
+            a.push_back({x, arr[i]});
+        }
+        
+        sort(a.begin(), a.end());
+        
+        for(int i=0; i<k; i++){
+            ans.push_back(a[i].second);
+        }
+        return ans;
+    }
+};
