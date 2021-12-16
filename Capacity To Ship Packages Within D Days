@@ -1,0 +1,52 @@
+class Solution {
+public:
+    
+    bool isPossible(vector<int> &arr, int n, int m, int mid){
+        
+        int days = 1;
+        int weight=0;
+        
+        for(int i=0; i<n; i++){
+            if(weight + arr[i] <= mid){
+                weight+=arr[i];
+            }
+            else{
+                days++;
+                if(days > m || arr[i]>mid){
+                    return false;
+                }
+                weight=arr[i];
+            }
+        }
+        return true;
+    }
+    
+    int shipWithinDays(vector<int>& arr, int days) {
+        int n=arr.size();
+        int s=0;
+        int sum=0;
+        
+        for(int i=0; i<n; i++){
+            sum+=arr[i];
+        }
+        int ans=-1;
+        int e=sum;
+        
+        
+        while(s<=e){
+            
+            int mid = s+(e-s)/2;
+            
+            if(isPossible(arr,n,days, mid)){
+                ans=mid;
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+            
+        }
+        
+        return ans;
+    }
+};
