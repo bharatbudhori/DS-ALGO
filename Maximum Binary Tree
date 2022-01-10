@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<int> slicing(vector<int>& arr, int X, int Y){
+ 
+        // Starting and Ending iterators
+        auto start = arr.begin() + X;
+        auto end = arr.begin() + Y + 1;
+ 
+        // To store the sliced vector
+        vector<int> result(Y - X + 1);
+ 
+        // Copy vector using copy function()
+        copy(start, end, result.begin());
+ 
+        // Return the final sliced vector
+        return result;
+    }
+    
+    
+    TreeNode* constructMaximumBinaryTree(vector<int>& arr) {
+        if(arr.size()==0){
+            return NULL;
+        }
+        if(arr.size()==1){
+            TreeNode* temp = new TreeNode(arr[0]);
+            return temp; 
+        }
+        
+        
+        
+        pair<int, int> maxx = make_pair(arr[0], 0);
+        for(int i=0; i<arr.size(); i++){
+            if(maxx.first < arr[i]){
+                maxx.first=arr[i];
+                maxx.second=i;
+            }
+        }
+        
+        vector<int> left = slicing(arr, 0, maxx.second-1);
+        vector<int> right = slicing(arr, maxx.second+1, arr.size()-1);
+        
+        TreeNode* ans = new TreeNode(maxx.first);
+        
+        ans->left=constructMaximumBinaryTree(left);
+        ans->right=constructMaximumBinaryTree(right);
+        
+        return ans;
+    }
+};
