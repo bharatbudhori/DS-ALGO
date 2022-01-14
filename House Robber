@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int maxNonAdjSum(vector<int> arr,int idx, vector<int> &dp){
+    if(idx==0) return arr[0];
+    if(idx < 0) return 0;
+    
+    if(dp[idx] != -1) return dp[idx];
+    
+    int pick=arr[idx]+maxNonAdjSum(arr, idx-2, dp);
+    int notPick=0+maxNonAdjSum(arr, idx-1, dp);
+    
+    return dp[idx]=max(pick, notPick);
+    
+}
+
+int maxNonAdjSum2(vector<int> arr, vector<int> &dp){
+    dp[0]=arr[0];
+    
+    for(int i=1; i<arr.size(); i++){
+        int pick = arr[i];
+        if(i>1) pick+=dp[i-2];
+        
+        int notPick = 0;
+        if(i>0) notPick+=dp[i-1];
+        
+        dp[i]=max(pick, notPick);
+    }
+    
+    return dp[arr.size()-1];
+}
+
+int maxNonAdjSum3(vector<int> arr){
+    int prev1=arr[0];
+    int prev2=0;
+    
+    for(int i=1; i<arr.size(); i++){
+        int curr = max((arr[i]+prev2), prev1);
+        
+        prev2=prev1;
+        prev1=curr;
+    }
+    
+    return prev1;
+}
+
+int main()
+{
+    vector<int> arr = {2,1,4,9};
+    
+    vector<int> dp (arr.size(), -1);
+    
+    //cout<<maxNonAdjSum(arr,arr.size()-1, dp);
+    
+    cout<<maxNonAdjSum3(arr);
+
+    return 0;
+}
