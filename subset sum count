@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int f(int ind, int target, vector<int> arr,  vector<vector<int>>& dp){
+    if(target==0) return 1;
+    if(ind==0) return (arr[0]==target);
+    
+    if(dp[ind][target] != -1) return dp[ind][target];
+    
+    int notTake = f(ind-1, target, arr, dp);
+    
+    int take=0;
+    if(arr[ind]<=target){
+        take = f(ind-1, target-arr[ind], arr, dp);
+    }
+    
+    return dp[ind][target] = take + notTake;
+}
+
+int main()
+{
+    vector<int> arr = {1,2,3,4,5,6};
+    int n=arr.size();
+    int k=9;
+    
+
+    
+    //vector<vector<int>> dp(n, vector<int> (k+1, -1));
+    vector<vector<int>> dp(n, vector<int> (k+1, 0));
+    
+    //cout<<f(n-1, k, arr, dp);
+    
+    for(int i=0; i<n; i++) dp[i][0]=1; 
+    dp[0][arr[0]]=1;
+    
+    for(int ind=1; ind<n; ind++){
+        for(int target=1; target<=k; target++){
+            int notTake = dp[ind-1][target];
+    
+            int take=0;
+            if(arr[ind]<=target){
+                take = dp[ind-1][target-arr[ind]];
+            }
+    
+            dp[ind][target] = take + notTake;
+        }
+    }
+    
+    cout<<dp[n-1][k]<<endl;
+    
+    
+    
+    vector<int> prev(k+1, 0);
+    vector<int> curr(k+1, 0);
+    
+    prev[0]=curr[0]=1;
+    
+    prev[arr[0]]=1;
+    
+    for(int ind=1; ind<n; ind++){
+        for(int target=1; target<=k; target++){
+            int notTake = prev[target];
+    
+            int take=0;
+            if(arr[ind]<=target){
+                take = prev[target-arr[ind]];
+            }
+    
+            curr[target] = take+ notTake;
+        }
+        prev=curr;
+    }
+    
+    cout<<prev[k];
+
+    return 0;
+}
+
