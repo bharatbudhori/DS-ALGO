@@ -1,0 +1,69 @@
+class Solution {
+public:
+    int f(int ind, int T, vector<int> arr, vector<vector<int>> &dp){
+        if(ind==0){
+            if(T%arr[0]==0) return T/arr[0];
+            return 1e9;
+        }
+        
+        if(dp[ind][T] != -1) return dp[ind][T];
+        
+        int notTake = 0 + f(ind-1, T, arr,dp);
+        int take=INT_MAX;
+        
+        if(arr[ind]<=T) take = 1+f(ind, T-arr[ind], arr,dp);
+        
+        return dp[ind][T] = min(take, notTake);
+    }
+    
+    int coinChange(vector<int>& arr, int amount) {
+        int n=arr.size();
+        
+        //vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        
+        vector<int> prev(amount+1,0),curr(amount+1,0); 
+        for(int T=0; T<=amount; T++){
+            if(T%arr[0]==0) prev[T]=T/arr[0];
+            else prev[T]=1e9;
+        }
+        
+        for(int ind=1; ind<n; ind++){
+            for(int T=0; T<=amount; T++){
+                int notTake = 0 + prev[T];
+                int take=INT_MAX;
+        
+                if(arr[ind]<=T) take = 1+curr[T-arr[ind]];
+        
+                curr[T] = min(take, notTake);
+            }
+            prev=curr;
+        }
+        
+        int ans = prev[amount];
+        
+        /*vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+        
+        for(int T=0; T<=amount; T++){
+            if(T%arr[0]==0) dp[0][T]=T/arr[0];
+            else dp[0][T]=1e9;
+        }
+        
+        for(int ind=1; ind<n; ind++){
+            for(int T=0; T<=amount; T++){
+                int notTake = 0 + dp[ind-1][T];
+                int take=INT_MAX;
+        
+                if(arr[ind]<=T) take = 1+dp[ind][T-arr[ind]];
+        
+                dp[ind][T] = min(take, notTake);
+            }
+        }
+        
+        int ans = dp[n-1][amount];
+        */
+        
+        //int ans= f(n-1, amount, arr, dp);
+        if(ans>=1e9) return -1;
+        return ans;
+    }
+};
