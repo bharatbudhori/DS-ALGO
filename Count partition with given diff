@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int f(int ind, int target, vector<int> arr,  vector<vector<int>>& dp){
+    
+    if(ind==0){
+        if(arr[0]==0 && target==0) return 2;
+        
+        if(target==0 || target==arr[0]) return 1;
+        
+        return 0;
+    }
+    
+    if(dp[ind][target] != -1) return dp[ind][target];
+    
+    int notTake = f(ind-1, target, arr, dp);
+    
+    int take=0;
+    if(arr[ind]<=target){
+        take = f(ind-1, target-arr[ind], arr, dp);
+    }
+    
+    return dp[ind][target] = take + notTake;
+}
+
+int main()
+{
+    vector<int> arr = {1,2,3,4,5,6};
+    int n=arr.size();
+    int d=3;
+    int totSum=0; 
+    
+    for(int i=0; i<n; i++){
+        totSum+=arr[i];
+    }
+
+    if(totSum-d < 0 || (totSum-d)%2){
+         cout<<0;
+         exit;
+    }
+    
+    int k=(totSum-d)/2;
+    
+    vector<vector<int>> dp1(n, vector<int> (k+1, -1));
+    vector<vector<int>> dp(n, vector<int> (k+1, 0));
+    
+    cout<<f(n-1, k, arr, dp1)<<endl;
+    
+    if(arr[0]==0) dp[0][0]=2;
+    else dp[0][0]=1;
+    if(arr[0] != 0 && arr[0]<=k) dp[0][arr[0]]=1;
+    
+    for(int ind=1; ind<n; ind++){
+        for(int target=0; target<=k; target++){
+            int notTake = dp[ind-1][target];
+    
+            int take=0;
+            if(arr[ind]<=target){
+                take = dp[ind-1][target-arr[ind]];
+            }
+    
+            dp[ind][target] = take + notTake;
+        }
+    }
+    
+    cout<<dp[n-1][k]<<endl;
+    
+    
+    
+    vector<int> prev(k+1, 0);
+    vector<int> curr(k+1, 0);
+    
+    if(arr[0]==0) prev[0]=2;
+    else prev[0]=1;
+    if(arr[0] != 0 && arr[0]<=k) prev[arr[0]]=1;
+    
+    for(int ind=1; ind<n; ind++){
+        for(int target=0; target<=k; target++){
+            int notTake = prev[target];
+    
+            int take=0;
+            if(arr[ind]<=target){
+                take = prev[target-arr[ind]];
+            }
+    
+            curr[target] = take+ notTake;
+        }
+        prev=curr;
+    }
+    
+    cout<<prev[k];
+
+    return 0;
+}
+
+
+
+
