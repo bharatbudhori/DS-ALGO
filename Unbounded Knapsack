@@ -1,0 +1,101 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int f(int ind, int w, vector<int> &wt, vector<int> &val, vector<vector<int>> &dp){
+    if(ind==0){
+        int n=w/wt[0];
+        
+        return n*val[0];
+    }
+    
+    if(dp[ind][w] != -1) return dp[ind][w];
+    
+    int notTake = 0+f(ind-1, w, wt, val, dp);
+    int take=INT_MIN;
+    
+    if(wt[ind]<=w){
+        take=val[ind]+f(ind, w-wt[ind], wt, val, dp);
+    }
+    
+    return dp[ind][w]=max(take, notTake);
+}
+
+int main()
+{
+    vector<int> val = {30,40,60};
+    vector<int> wt = {2,3,5};
+    int maxWeight = 6;
+    
+    int n=val.size();
+    
+    vector<vector<int>> dp1 (n, vector<int> (maxWeight+1, -1));
+    
+    cout<<f(n-1, maxWeight, wt, val, dp1)<<endl;
+    
+    //tabulation
+    
+    vector<vector<int>> dp (n, vector<int> (maxWeight+1, 0));
+    
+    for(int w=0; w<=maxWeight; w++) dp[0][w]= (int)(w/wt[0])*val[0];
+    
+    for(int ind=1; ind<n; ind++){
+        for(int w=0; w<=maxWeight; w++){
+            int notTake = 0+dp[ind-1][w];
+            int take=INT_MIN;
+    
+            if(wt[ind]<=w){
+                take=val[ind]+dp[ind][w-wt[ind]];
+            }
+    
+            dp[ind][w]=max(take, notTake);
+        }
+    }
+    
+    cout<<dp[n-1][maxWeight]<<endl;
+    
+    //space optimisation
+    
+    vector<int> prev(maxWeight+1, 0), curr(maxWeight+1, 0);
+    
+    for(int w=0; w<=maxWeight; w++) prev[w]=(int)(w/wt[0])*val[0];
+    
+    for(int ind=1; ind<n; ind++){
+        for(int w=0; w<=maxWeight; w++){
+            int notTake = 0+prev[w];
+            int take=INT_MIN;
+    
+            if(wt[ind]<=w){
+                take=val[ind]+curr[w-wt[ind]];
+            }
+    
+            curr[w]=max(take, notTake);
+        }
+        prev=curr;
+    }
+    
+    cout<<prev[maxWeight]<<endl;
+    
+    //further space optimisation
+    
+    vector<int> prev2(maxWeight+1, 0);
+    
+    for(int w=0; w<=maxWeight; w++) prev2[w]=(int)(w/wt[0])*val[0]; 
+    
+    for(int ind=1; ind<n; ind++){
+        for(int w=maxWeight; w>=0; w--){
+            int notTake = 0+prev2[w];
+            int take=INT_MIN;
+    
+            if(wt[ind]<=w){
+                take=val[ind]+prev2[w-wt[ind]];
+            }
+    
+            prev2[w]=max(take, notTake);
+        }
+    }
+    
+    cout<<prev2[maxWeight]<<endl;
+    return 0;
+}
+
+
