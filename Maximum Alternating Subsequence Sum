@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long f(vector<int>& arr, int ind, bool taken, vector<vector<long long>> &dp){
+        if(ind < 0) return 0;
+        
+        if(dp[ind][taken] != -1) return dp[ind][taken];
+        
+        long long notTake = f(arr, ind-1, taken, dp);
+        long long take=INT_MIN;
+        if(taken==1)
+            take = -arr[ind] + f(arr, ind-1, taken-1, dp);
+        else
+            take = arr[ind] + f(arr, ind-1, taken+1, dp);
+        
+        return dp[ind][taken] = max(take, notTake);
+    }
+    
+    long long maxAlternatingSum(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<long long>> dp(n, vector<long long> (2, -1));
+        return f(nums, n-1, 0, dp);
+    }
+};
