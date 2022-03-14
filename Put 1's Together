@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s = "111000110010";
+    int n = s.size();
+    int count=0;
+    int ans=1e9;
+    int ways=0;
+    for(int i=0; i<n; i++){
+        if(s[i]=='1') count++;
+    }
+    
+    //cout<<count<<endl;
+    
+    for(int i=0; i<n; i++){
+        if(i+count<=n){
+            int j=i;
+            int num=0, swap=0;
+            while(num < count && j<n){
+                if(s[j]=='0') swap++;
+                
+                num++;
+                j++;
+            }
+            if(ans==swap) ways++;
+            else if(swap < ans){
+                ans=swap;
+                ways=1;
+            }
+        }
+    }
+    
+    cout<<"Minimum no. of swaps : "<<ans<<endl<<"No. of ways : "<<ways;
+    
+    return 0;
+}
+
+
+
