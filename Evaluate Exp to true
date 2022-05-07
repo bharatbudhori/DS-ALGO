@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+int mod = 1000000007;
+
+long long f(int i, int j, int isTrue, string &s, vector<vector<vector<long long>>>& dp){
+    if(i > j) return 0;
+    if(i == j){
+        if(isTrue) return s[i]=='T';
+        else return s[i] == 'F';
+    }
+    
+    if(dp[i][j][isTrue] != -1) return dp[i][j][isTrue];
+    
+    long long ways = 0;
+    for(int ind = i+1; i<=j-1; i+=2){
+        long long lT = f(i, ind-1, 1, s, dp);
+        long long lF = f(i, ind-1, 0, s, dp);
+        long long rT = f(ind+1, j, 1, s, dp);
+        long long rF = f(ind+1, j, 0, s, dp);
+        
+        if(s[ind] == '&'){
+            if(isTrue) ways = (ways + (rT * lT)%mod)%mod;
+            
+            else ways = (ways + (rT * lF)%mod + (rF * lT)%mod + (rF * lF)%mod)%mod;
+        }
+        else if(s[ind] == '|'){
+            if(isTrue) ways = (ways + (rT * lF)%mod + (rF * lT)%mod + (rT * lT)%mod)%mod;
+            else ways = (ways + (rF * lF)%mod)%mod;
+        }
+        
+        else{
+         if(isTrue) ways = (ways + (rT * lF)%mod + (rF * lT)%mod)%mod;
+         else ways = (ways + (rT * lT)%mod + (rF * lF)%mod)%mod;
+        }
+    }
+    
+    return dp[i][j][isTrue] =  ways;
+}
+
+int main()
+{
+    string s = "F|T^F";
+    int n = s.size();
+    
+    vector<vector<vector<long long>>> dp(n, vector<vector<long long>>(n, vector<long long>(2, -1)));
+    
+    cout<< f(0, n-1, 1, s, dp);
+
+    return 0;
+}
